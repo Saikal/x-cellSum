@@ -37,7 +37,11 @@ class TableView {
 	renderTable() {
 		this.renderTableHeader();
 		this.renderTableBody();
+
+		// const location = { col: 2, row: 2};
+		// this.model.setValue(location, '20');
 	}
+
 	renderTableHeader() {
 		removeChildren(this.headerRowEl);
 		getLetterRange('A', this.model.numCols).map(collabel => createTH(collabel)).forEach(th => this.headerRowEl.appendChild(th));
@@ -65,9 +69,37 @@ class TableView {
 			}
 			fragment.appendChild(tr);
 		}
+
+
+		//Sum Row Starts Here:
+		const sumTr = createTR();
+		sumTr.className = 'sum-row';
+
+		for (let col = 0; col < this.model.numCols; col++) {
+				
+				const td = createTD();
+				let sum = 0;
+				for (let row = 0; row < this.model.numRows; row++){
+					if(!isNaN(this.model.getValue({col: col, row: row}))) {
+						sum = sum + parseInt(this.model.getValue({col: col, row: row}), 10);
+					}
+				}
+				if(sum !== 0){
+					var t = document.createTextNode(sum);
+					td.appendChild(t);
+				}
+
+				sumTr.appendChild(td);
+		}
+		fragment.appendChild(sumTr);
+
+
 		removeChildren(this.sheetBodyEl);
 		this.sheetBodyEl.appendChild(fragment);
+		
 	}
+
+
 
 	attachEventHandlers() {
 		this.sheetBodyEl.addEventListener('click', this.handleSheetClick.bind(this));
