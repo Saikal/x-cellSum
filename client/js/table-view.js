@@ -38,8 +38,6 @@ class TableView {
 		this.renderTableHeader();
 		this.renderTableBody();
 
-		// const location = { col: 2, row: 2};
-		// this.model.setValue(location, '20');
 	}
 
 	renderTableHeader() {
@@ -71,7 +69,6 @@ class TableView {
 		}
 
 
-		//Sum Row Starts Here:
 		const sumTr = createTR();
 		sumTr.className = 'sum-row';
 
@@ -81,12 +78,12 @@ class TableView {
 				let sum = 0;
 				for (let row = 0; row < this.model.numRows; row++){
 					if(!isNaN(this.model.getValue({col: col, row: row}))) {
-						sum = sum + parseInt(this.model.getValue({col: col, row: row}), 10);
+						sum += parseInt(this.model.getValue({col: col, row: row}), 10);
 					}
 				}
 				if(sum !== 0){
-					var t = document.createTextNode(sum);
-					td.appendChild(t);
+					let colSum = document.createTextNode(sum);
+					td.appendChild(colSum);
 				}
 
 				sumTr.appendChild(td);
